@@ -20,14 +20,14 @@
 
 ## ✨ Características
 
-PatataTube no es solo otro wrapper de `yt-dlp`. Está diseñado obsesivamente para ofrecer una **experiencia de usuario (UX) impecable**, pareciendo y sintiéndose como una aplicación 100% nativa en tu sistema operativo.
+PatataTube no es solo otro wrapper de `yt-dlp`. Está diseñado para ofrecer una **experiencia de usuario (UX) impecable**, simple y cómoda.
 
-*   🎧 **Audio & Vídeo en Máxima Calidad:** Descarga en formato `.mp3` o `.mp4` con un solo clic. La app se encarga de buscar y fusionar la mejor calidad disponible.
-*   🎨 **Temas Dinámicos:** Personaliza la interfaz al vuelo. Incluye Modo Oscuro 🌙, Modo Claro ☀️ y el exclusivo Modo Poke 💖.
-*   ⚡ **Cero Dependencias para el Usuario:** Incluye internamente los binarios estáticos de `yt-dlp` y `ffmpeg` para **Windows, macOS y Linux**. Tu usuario final solo tiene que hacer doble clic y usar la app.
-*   🛑 **Stop de Emergencia (Kill Switch):** Aborta cualquier descarga en milisegundos gracias a la aniquilación directa de sub-procesos en el sistema operativo.
-*   📁 **Navegación Nativa:** Abre la carpeta de descargas directamente en tu explorador de archivos nativo (Finder, Explorer, o gestores de Linux) una vez finalizada la tarea.
-*   🖥️ **Consola Debug:** ¿Quieres saber qué ocurre bajo el capó? Despliega la terminal integrada para ver el progreso real y la salida de `yt-dlp`.
+*   🎧 **Audio & Vídeo en Máxima Calidad:** Descarga en formato `.mp3` o `.mp4` con un solo clic. La app busca la mayor calidad disponible por ti.
+*   🎨 **Elige tu estilo:** Personaliza la interfaz en cualquier momento. Incluye Modo Oscuro 🌙, Modo Claro ☀️ y el exclusivo Modo Poke 💖.
+*   ⚡ **Sin dependencias para el usuario:** Incluye de fabrica los binarios estáticos de `yt-dlp` y `ffmpeg` para **Windows, macOS y Linux**. Tu solo tienes que hacer doble clic y usar la app.
+*   🛑 **Stop de Emergencia (Kill Switch):** Aborta cualquier descarga instantaneamente gracias a la aniquilación directa de sub-procesos en el sistema operativo.
+*   📁 **Navegación Nativa:** Abre la carpeta de descargas directamente en tu explorador de archivos nativo (Finder, Explorer, o gestores de Linux) una vez se finalice la descarga.
+*   🖥️ **Consola Debug:** Abre la terminal para ver el progreso real y la salida de `yt-dlp`, todo en vivo.
 *   🚫 **Protección Anti-Playlists:** Descargas garantizadas de un solo elemento (`--no-playlist`) para evitar descargas accidentales masivas.
 
 ## 🚀 Instalación y Desarrollo
@@ -42,8 +42,8 @@ Necesitarás tener instalados:
 
 ### 📥 Descargas (Compilados Oficiales)
 
-¿No quieres pelear con compiladores o código fuente? ¡Genial!
-Hemos preparado las **versiones compiladas listas para usar** para Windows, macOS y Linux.
+¿No quieres pelear con compiladores o código fuente? 
+Hemos preparado las **versiones compiladas listas para usar** para Windows, macOS y Linux. ¡Ahorrate complicaciones!
 
 Ve directamente a la pestaña de [**Releases**](https://github.com/tu-usuario/PatataTube/releases/latest) aquí en GitHub y descarga la última versión mágica instalable (`.exe`, `.dmg`, `.AppImage`, etc.). ¡Doble clic y a descargar!
 
