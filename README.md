@@ -1,6 +1,6 @@
 <!-- Header Image Placeholder (21:9 ratio) -->
 <p align="center">
-  <img src="ruta/a/tu/imagen-21x9.png" alt="PatataTube Header" width="100%">
+  <img src="https://github.com/contratop/Patatatube/blob/main/media/banner.PNG?raw=true" alt="PatataTube" width="100%">
 </p>
 
 <h1 align="center">🥔 PatataTube</h1>
