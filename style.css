@@ -6,6 +6,86 @@
   --text-color: #db4483;
 }
 
+body.theme-poke {
+  --bg-color: #ffe6f2; /* Soft pastel pink */
+  --text-color: #ff4d94; /* Deep pink */
+  --primary-color: #ff66a3; /* Medium pink */
+  --secondary-color: #ffffff; /* White buttons */
+  --hover-color: #ffb3d1; /* Lighter pink on hover */
+}
+
+/* Fancy Poke Theme Effects */
+body.theme-poke {
+  background: radial-gradient(circle at 50% 0%, #fff0f7 0%, #ffe6f2 50%, #ffcce0 100%);
+}
+
+body.theme-poke .logo {
+  text-shadow: 0 0 15px rgba(255, 77, 148, 0.4), 0 0 30px rgba(255, 77, 148, 0.2);
+}
+
+body.theme-poke button:not(:disabled) {
+  box-shadow: 0 4px 15px rgba(255, 102, 163, 0.3);
+}
+
+body.theme-poke button:not(:disabled):hover {
+  box-shadow: 0 6px 20px rgba(255, 102, 163, 0.5);
+}
+
+/* Floating Sparkles for Poke Theme */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-300px); }
+}
+
+body.theme-poke {
+  position: relative;
+  overflow: hidden;
+}
+
+body.theme-poke::before,
+body.theme-poke::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 200vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-poke::before {
+  background-image: 
+    radial-gradient(circle at 20px 30px, #ffffff 2px, transparent 3px),
+    radial-gradient(circle at 150px 80px, #ff99c2 3px, transparent 4px),
+    radial-gradient(circle at 80px 160px, #ffffff 2px, transparent 3px),
+    radial-gradient(circle at 200px 40px, #ff99c2 3px, transparent 4px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50' width='30' height='30'%3E%3Cpath fill='%23ffb3d1' d='M25 0 C25 15 35 25 50 25 C35 25 25 35 25 50 C25 35 15 25 0 25 C15 25 25 15 25 0 Z'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 350px 350px, 350px 350px, 350px 350px, 350px 350px, 200px 200px;
+  background-position: 0 0, 0 0, 0 0, 0 0, 50px 50px;
+  animation: floatUp 20s linear infinite, twinkle 3s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+body.theme-poke::after {
+  background-image: 
+    radial-gradient(circle at 50px 50px, #ffb3d1 3px, transparent 4px),
+    radial-gradient(circle at 120px 100px, #ffffff 2px, transparent 3px),
+    radial-gradient(circle at 280px 70px, #ffffff 2px, transparent 3px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50' width='20' height='20'%3E%3Cpath fill='%23ffffff' d='M25 0 C25 15 35 25 50 25 C35 25 25 35 25 50 C25 35 15 25 0 25 C15 25 25 15 25 0 Z'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 400px 400px, 400px 400px, 400px 400px, 250px 250px;
+  background-position: 0 0, 0 0, 0 0, 100px 150px;
+  animation: floatUp 35s linear infinite, twinkle 4s ease-in-out infinite reverse;
+  opacity: 0.8;
+}
+
 [data-theme="dark"] {
   --bg-color: #272832;
   --primary-color: #90b3ec;
@@ -50,6 +130,7 @@ input, textarea {
   width: 100%;
   height: 100%;
   position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,6 +146,19 @@ input, textarea {
   padding: 20px;
 }
 
+@keyframes apple-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
 .logo {
   font-family: 'Pacifico', cursive;
   font-size: 5rem;
@@ -73,6 +167,8 @@ input, textarea {
   color: var(--primary-color);
   text-shadow: 1px 1px 0px rgba(0,0,0,0.05); /* Subtle shadow if needed */
   transition: color 0.4s ease;
+  opacity: 0;
+  animation: apple-fade-in 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .controls {

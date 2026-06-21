@@ -16,6 +16,7 @@
         "width": 800,
         "height": 700,
         "resizable": false,
+        "maximizable": false,
         "fullscreen": false
       }
     ],
