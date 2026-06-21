@@ -6,6 +6,11 @@ use serde::Serialize;
 use regex::Regex;
 use std::sync::atomic::{AtomicU32, Ordering};
 
+#[cfg(target_os = "windows")]
+use std::os::windows::process::CommandExt;
+
+const CREATE_NO_WINDOW: u32 = 0x08000000;
+
 struct AppState {
     current_pid: AtomicU32,
 }
@@ -84,11 +89,15 @@ fn download_media(app: AppHandle, url: String, format: String) -> Result<(), Str
         
         args.push(&url);
 
-        let mut child = match Command::new(&yt_dlp_path)
-            .args(&args)
-            .stdout(Stdio::piped())
-            .stderr(Stdio::piped())
-            .spawn()
+        let mut command = Command::new(&yt_dlp_path);
+        command.args(&args)
+               .stdout(Stdio::piped())
+               .stderr(Stdio::piped());
+
+        #[cfg(target_os = "windows")]
+        command.creation_flags(CREATE_NO_WINDOW);
+
+        let mut child = match command.spawn()
         {
             Ok(c) => c,
             Err(e) => {
@@ -168,7 +177,7 @@ fn cancel_download(state: tauri::State<'_, AppState>) {
     let pid = state.current_pid.load(Ordering::SeqCst);
     if pid > 0 {
         #[cfg(target_os = "windows")]
-        let _ = Command::new("taskkill").args(["/F", "/T", "/PID", &pid.to_string()]).spawn();
+        let _ = Command::new("taskkill").args(["/F", "/T", "/PID", &pid.to_string()]).creation_flags(CREATE_NO_WINDOW).spawn();
         
         #[cfg(not(target_os = "windows"))]
         {
@@ -190,7 +199,7 @@ fn cancel_download(state: tauri::State<'_, AppState>) {
 fn open_download_folder(app: AppHandle) {
     if let Ok(download_dir) = app.path().download_dir() {
         #[cfg(target_os = "windows")]
-        let _ = Command::new("explorer").arg(&download_dir).spawn();
+        let _ = Command::new("explorer").arg(&download_dir).creation_flags(CREATE_NO_WINDOW).spawn();
         
         #[cfg(target_os = "macos")]
         let _ = Command::new("open").arg(&download_dir).spawn();

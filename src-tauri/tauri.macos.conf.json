@@ -1,0 +1,8 @@
+{
+  "bundle": {
+    "resources": [
+      "bin/yt-dlp_macos",
+      "bin/ffmpeg_macos"
+    ]
+  }
+}
