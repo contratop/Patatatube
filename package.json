@@ -13,5 +13,8 @@
     "@tauri-apps/api": "^2.11.1",
     "@tauri-apps/cli": "^2.11.3",
     "vite": "^8.0.12"
+  },
+  "dependencies": {
+    "@tauri-apps/plugin-fs": "^2.5.1"
   }
 }

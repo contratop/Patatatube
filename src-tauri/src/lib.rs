@@ -23,6 +23,7 @@ struct DownloadEvent {
     percentage: Option<f64>,
 }
 
+#[cfg(not(target_os = "android"))]
 #[tauri::command]
 fn download_media(app: AppHandle, url: String, format: String) -> Result<(), String> {
     // Resolve yt-dlp path depending on OS
@@ -172,6 +173,7 @@ fn download_media(app: AppHandle, url: String, format: String) -> Result<(), Str
     Ok(())
 }
 
+#[cfg(not(target_os = "android"))]
 #[tauri::command]
 fn cancel_download(state: tauri::State<'_, AppState>) {
     let pid = state.current_pid.load(Ordering::SeqCst);
@@ -195,6 +197,7 @@ fn cancel_download(state: tauri::State<'_, AppState>) {
     }
 }
 
+#[cfg(not(target_os = "android"))]
 #[tauri::command]
 fn open_download_folder(app: AppHandle) {
     if let Ok(download_dir) = app.path().download_dir() {
@@ -208,6 +211,95 @@ fn open_download_folder(app: AppHandle) {
         let _ = Command::new("xdg-open").arg(&download_dir).spawn();
     }
 }
+// ==========================================
+// ANDROID SPECIFIC IMPLEMENTATION (Pure Rust)
+// ==========================================
+
+#[cfg(target_os = "android")]
+#[tauri::command]
+async fn download_media(app: AppHandle, state: tauri::State<'_, AppState>, url: String, format: String) -> Result<(), String> {
+    use rusty_ytdl::{Video, VideoOptions, VideoQuality, VideoSearchOptions};
+    use futures_util::StreamExt;
+    use std::io::Write;
+    
+    state.current_pid.store(1, Ordering::SeqCst);
+    
+    let video = Video::new(&url).map_err(|e| e.to_string())?;
+    let video_info = video.get_info().await.map_err(|e| e.to_string())?;
+    let title = video_info.video_details.title.replace("/", "_").replace("\\", "_");
+    
+    // Explicitly point to the public Downloads folder for Android
+    let download_dir = std::path::PathBuf::from("/storage/emulated/0/Download");
+    
+    let ext = if format == "audio" { "m4a" } else { "mp4" };
+    let path = download_dir.join(format!("{}.{}", title, ext));
+    
+    let mut options = VideoOptions::default();
+    if format == "audio" {
+        options.quality = VideoQuality::HighestAudio;
+        options.filter = VideoSearchOptions::Audio;
+    } else {
+        options.quality = VideoQuality::Highest;
+        options.filter = VideoSearchOptions::VideoAudio;
+    }
+    
+    let video_with_opts = Video::new_with_options(&url, options).map_err(|e| e.to_string())?;
+    let stream = video_with_opts.stream().await.map_err(|e| e.to_string())?;
+    
+    let total_size = stream.content_length() as f64;
+    let mut downloaded = 0f64;
+    
+    let mut file = std::fs::File::create(&path).map_err(|e| e.to_string())?;
+    
+    while let Some(chunk) = stream.chunk().await.map_err(|e| e.to_string())? {
+        if state.current_pid.load(Ordering::SeqCst) == 0 {
+            // Canceled
+            let _ = std::fs::remove_file(&path);
+            let _ = app.emit("download-event", DownloadEvent {
+                event_type: "error".into(),
+                text: "Descarga cancelada.".into(),
+                percentage: None,
+            });
+            return Ok(());
+        }
+        
+        file.write_all(&chunk).map_err(|e| e.to_string())?;
+        downloaded += chunk.len() as f64;
+        
+        if total_size > 0.0 {
+            let percentage = (downloaded / total_size) * 100.0;
+            let text = format!("[download] {:.1}%", percentage);
+            let _ = app.emit("download-event", DownloadEvent {
+                event_type: "progress".into(),
+                text,
+                percentage: Some(percentage),
+            });
+        }
+    }
+    
+    state.current_pid.store(0, Ordering::SeqCst);
+    let _ = app.emit("download-event", DownloadEvent {
+        event_type: "done".into(),
+        text: "100% - Completado".into(),
+        percentage: Some(100.0),
+    });
+    
+    Ok(())
+}
+
+#[cfg(target_os = "android")]
+#[tauri::command]
+fn cancel_download(state: tauri::State<'_, AppState>) {
+    state.current_pid.store(0, Ordering::SeqCst); // Aborts the async chunk stream
+}
+
+#[cfg(target_os = "android")]
+#[tauri::command]
+fn open_download_folder(_app: AppHandle) {
+    // Opening folders on Android requires Intents which is outside scope for now.
+    // The file is safely in the app's Download directory.
+}
+
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {

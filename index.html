@@ -8,6 +8,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css" />
+    <script>
+      // Detect Mobile/Android and redirect immediately to protect the PC design
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        window.location.replace("/mobile.html");
+      }
+    </script>
   </head>
   <body>
     <div class="app-container">
