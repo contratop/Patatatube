@@ -87,11 +87,6 @@ Los archivos finales se generarán mágicamente en la ruta `src-tauri/target/rel
 
 ---
 
-## Nota
-
-La rama MobileVer esta abandonada, es un proyecto experimental que no se piensa continuar.
-Se recomienda mantenerse en la rama Main
-
 <p align="center">
   Desarrollado con 💖 y muchas 🥔
 </p>
