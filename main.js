@@ -33,7 +33,37 @@ function updateThemeIcon() {
   }
 }
 
+// Easter Egg Logic
+const creditsOverlay = document.getElementById('credits-overlay');
+let themePressTimer;
+let isLongPress = false;
+
+function startThemePress(e) {
+  isLongPress = false;
+  themePressTimer = setTimeout(() => {
+    isLongPress = true;
+    creditsOverlay.classList.add('active');
+  }, 1500); // 1.5 seconds hold
+}
+
+function cancelThemePress() {
+  clearTimeout(themePressTimer);
+}
+
+themeToggleBtn.addEventListener('mousedown', startThemePress);
+themeToggleBtn.addEventListener('touchstart', startThemePress, {passive: true});
+
+themeToggleBtn.addEventListener('mouseup', cancelThemePress);
+themeToggleBtn.addEventListener('mouseleave', cancelThemePress);
+themeToggleBtn.addEventListener('touchend', cancelThemePress);
+
+creditsOverlay.addEventListener('click', () => {
+  creditsOverlay.classList.remove('active');
+});
+
 themeToggleBtn.addEventListener('click', () => {
+  if (isLongPress) return; // Prevent theme toggle if the user held the button for the easter egg
+  
   currentThemeIndex = (currentThemeIndex + 1) % themes.length;
   const newTheme = themes[currentThemeIndex];
   htmlEl.setAttribute('data-theme', newTheme);

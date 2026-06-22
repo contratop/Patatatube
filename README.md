@@ -29,6 +29,7 @@ PatataTube no es solo otro wrapper de `yt-dlp`. Está diseñado para ofrecer una
 - 📁 **Navegación Nativa:** Abre la carpeta de descargas directamente en tu explorador de archivos nativo (Finder, Explorer, o gestores de Linux) una vez se finalice la descarga.
 - 🖥️ **Consola Debug:** Abre la terminal para ver el progreso real y la salida de `yt-dlp`, todo en vivo.
 - 🚫 **Protección Anti-Playlists:** Descargas garantizadas de un solo elemento (`--no-playlist`) para evitar descargas accidentales masivas.
+- 🎁 **Easter Egg Secreto:** Mantén pulsado el botón de cambiar tema para descubrir los créditos flotantes de los creadores.
 
 ## 🚀 Instalación y Desarrollo
 
@@ -87,6 +88,7 @@ Los archivos finales se generarán mágicamente en la ruta `src-tauri/target/rel
 
 ---
 
-<p align="center">
-  Desarrollado con 💖 y muchas 🥔
-</p>
+<div align="center">
+  <h3>Diseñado por <b>pokeinalover</b>, programado por <b>ContratopDev</b></h3>
+  <p>Desarrollado con 💖 y muchas 🥔</p>
+</div>
